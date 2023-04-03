@@ -1,7 +1,8 @@
 {
-  "label": "Tutorial - Extras",
+  "label": "Web3 Costumization",
   "position": 3,
   "link": {
-    "type": "generated-index"
+    "type": "generated-index",
+    "description": "Seshat's Web3 Customization features provide a tailored experience for users in the decentralized ecosystem. By leveraging Seshat's personalization engine, dApp developers can easily rerank items and content based on individual user preferences derived from their on-chain activity. This empowers developers to create more engaging and relevant user experiences, driving increased adoption and satisfaction within the Web3 world. In this section, we will guide you through the process of creating an API key, installing the SDK, and utilizing our ranker to customize content according to your users' unique preferences."
   }
 }
