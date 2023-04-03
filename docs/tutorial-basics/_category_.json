@@ -1,8 +1,8 @@
 {
-  "label": "Tutorial - Basics",
+  "label": "Web3 Advertisements",
   "position": 2,
   "link": {
     "type": "generated-index",
-    "description": "5 minutes to learn the most important Docusaurus concepts."
+    "description": "With Seshat's core recommender engine, we are building the native SSP and DSP for key players in the Web3 ecosystem. Advertisers or marketers can easily build targeted campaigns to promote both on-chain and off-chain assets. On the other hand, publishers or dApp developers can effortlessly install the Seshat SDK and fetch personalized ads based on user public keys."
   }
 }
