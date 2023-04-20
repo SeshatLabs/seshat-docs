@@ -7,6 +7,9 @@ sidebar_position: 1
 
 **Seshat**, the First Personalized Recommendation Engine for the Web3 Era
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 **Why do we need a recommendation engine for Web3?**
 
 To bring more users to the Web3 ecosystem, we need to deliver the same experience they had in Web2. However, as a dApp developer, when we add the "connect wallet" functionality to our product, we only have access to the user's public key. With just a public key and on-chain transactions, there's no way to use traditional Web2 recommendation engines. To deliver a personalized experience similar to what FANG companies offer, we need a new personalization engine that fits our new journey. Enter Seshat!

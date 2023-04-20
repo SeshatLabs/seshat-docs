@@ -34,7 +34,7 @@ export default function Home() {
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px'}}>
-        <iframe width="840" height="473" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe width="840" height="473" src="https://www.youtube.com/embed/c_Cz_XXO2rM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
       <main>
         <HomepageFeatures />
