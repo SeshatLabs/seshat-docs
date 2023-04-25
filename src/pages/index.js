@@ -30,8 +30,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title}`}
+      description="Bring Personalization to Web3">
       <HomepageHeader />
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px'}}>
         <iframe width="840" height="473" src="https://www.youtube.com/embed/c_Cz_XXO2rM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
