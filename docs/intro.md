@@ -2,12 +2,14 @@
 sidebar_position: 1
 ---
 
-# Why Seshat?
+# Seshat Base Layer?
 
 
-**Seshat**, the First Personalized Recommendation Engine for the Web3 Era
+**Seshat**, Bring Predictive Features to the Web3 Infrastructure
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+![Main Architecture](./../static/img/main_arch.png)
+
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 **Why do we need a recommendation engine for Web3?**
@@ -20,9 +22,7 @@ In the generative AI world we live in, it's inevitable to leverage AI technology
 
 **Why the name Seshat?**
 
-The name Seshat was chosen in honor of the ancient Egyptian goddess of wisdom, knowledge, and writing. Seshat was known for her ability to bring order and structure to the universe, much like our recommendation engine aims to bring personalized experiences to the blockchain, Web3, and dApps ecosystem. The connection between the name Seshat and our technology lies in the ability to bring order, understanding, and personalization to the vast and complex world of Web3. By leveraging the wisdom of Seshat, we aim to create a seamless, personalized experience for users across the Web3 landscape.
-
-
+The name Seshat was chosen in honor of the ancient Egyptian goddess of wisdom, knowledge, and writing. Seshat was known for her ability to bring order and structure to the universe, much like our recommendation engine aims to bring personalized experiences to the blockchain, Web3, and dApps ecosystem. The connection between the name Seshat and our technology lies in the ability to bring order, understanding, and personalization to the vast and complex world of Web3. By leveraging the wisdom of Seshat, we aim to create a seamless, personalized experience for users across the Web3 landscape. -->
 
 <!-- Let's discover **Docusaurus in less than 5 minutes**.
 

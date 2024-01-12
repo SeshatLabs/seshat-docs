@@ -2,9 +2,11 @@
 sidebar_position: 2
 ---
 
-# Publishers & DApp Developers
+# Model Layer
 
-First, app developers or publishers need to create an account on Seshatlabs.xyz. They can either connect their blockchain wallet or use Login with Google. Then, they should go to their profile to access their API key. Note that there is a cap limit for some endpoints in the free tier.
+How we use Seshat base layer to upload the predictive model to rank any content in an array for a selected user public key based on transactional data
+
+<!-- First, app developers or publishers need to create an account on Seshatlabs.xyz. They can either connect their blockchain wallet or use Login with Google. Then, they should go to their profile to access their API key. Note that there is a cap limit for some endpoints in the free tier.
 
 **Install SDK and Fetch Ads**
 
@@ -26,5 +28,5 @@ const apiKey = 'your-api-key';
 const userAddress = '0x1234567890abcdef1234567890abcdef12345678';
 const adResult = await seshat.getAdvertisement(apiKey, userAddress);
 console.log(adResult);
-```
+``` -->
 
