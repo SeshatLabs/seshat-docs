@@ -4,37 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Chain-agnostic Personalization Engine',
+    title: 'Seshat On-chain Data Layer',
     Svg: require('@site/static/img/blockchain.svg').default,
     description: (
       <>
-        Seshat's powerful AI-driven personalization engine works seamlessly across multiple 
-        blockchains. Seshat delivers 
-        hyper-targeted recommendations, helping you engage users with relevant content and 
-        offers in the Web3 ecosystem.
+        Connecting to various chains, providing the Seshat data wearhouse with the raw on-chain data coupeled with required transformations from DBTE module.
       </>
     ),
   },
   {
-    title: 'Web3 Native Advertising Platform',
+    title: 'Seshat Model Layer',
     Svg: require('@site/static/img/ads.svg').default,
     description: (
       <>
-        Effortlessly create and manage targeted ad campaigns for both on-chain and off-chain 
-        assets with Seshat's user-friendly advertising platform. Leverage our state-of-the-art 
-        recommendation engine to reach the right audience in the decentralized world.
+        Creating and training the models off-chain and simply pushing the models to the Seshat model hub.
       </>
     ),
   },
   {
-    title: 'Content Reranking for Enhanced User Experience',
+    title: 'Seshat Real-time Inference Engine',
     Svg: require('@site/static/img/ranking.svg').default,
     description: (
       <>
-        Elevate your dApp's user experience with Seshat's easy-to-use SDK, which allows you to 
-        rerank items and content based on individual user preferences. By tailoring content to 
-        each user's unique interests and on-chain activity, you'll drive higher engagement and 
-        satisfaction.
+        Accessing the real-time on-chain data to run the model on Inference Engine (IE) and providing results.
       </>
     ),
   },

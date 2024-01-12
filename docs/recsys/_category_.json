@@ -1,0 +1,8 @@
+{
+  "label": "Personalization Engine",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Let's consider one downstream usecases of Seshat base layer: Web3 Recommendation Engine. In this study at the University of Waterloo, we tried to design a contract predictor model which basically returns relevant contract addresses to a user public key based on historical contracts the user run before. We first go through the general RecSys design we used in this study for on-chain data, then provide a more costumized extended version of such RecSys focused on personalized web3 marketing quests/airdrops."
+  }
+}
