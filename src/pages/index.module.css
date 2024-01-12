@@ -21,3 +21,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.responsive-image {
+  width: 100%; /* This makes the image responsive */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 1000px; /* Maximum width */
+}
