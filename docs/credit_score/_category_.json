@@ -1,0 +1,8 @@
+{
+  "label": "Lending Protocols CryptoCredit Score",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Let's transition to another usecases for the Seshat base layer: predicting the crypto credit score based on (user public key, loan-interactions) pairs."
+  }
+}

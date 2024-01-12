@@ -31,10 +31,14 @@ export default function Home() {
   return (
     <Layout
       title={`${siteConfig.title}`}
-      description="Bring Personalization to Web3">
+      description="Bring Predictive Features to the Web3 Infrastructure">
       <HomepageHeader />
-      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px'}}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px'}}>
         <iframe width="840" height="473" src="https://www.youtube.com/embed/c_Cz_XXO2rM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div> */}
+
+      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px' }}>
+          <img src="./img/main_arch.png" alt="Seshat Base Layer" width="1100" height="473"></img>
       </div>
       <main>
         <HomepageFeatures />

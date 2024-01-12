@@ -1,8 +1,0 @@
-{
-  "label": "Personalization Engine",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "description": "Let's consider one downstream usecases of Seshat base layer: Recommendation Engine for web3 marketing. With Seshat's base layer engine, Anyone can design a native SSP and DSP for users, dApps as publishers, and marketers on different blockchains. Advertisers or marketers can easily build targeted campaigns to promote both on-chain and off-chain assets. On the other hand, publishers or dApp developers can effortlessly fetch personalized quests based on user public keys by running a RecSys model fed by real time on-chain data all abstracted by Seshat base layer. Let's dive into the data layer, model layer, and an example demo usage for such personalized marketing experience for web3."
-  }
-}

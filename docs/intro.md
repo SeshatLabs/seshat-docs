@@ -2,12 +2,37 @@
 sidebar_position: 1
 ---
 
-# Seshat Base Layer?
+# Seshat Base Layer
 
 
 **Seshat**, Bring Predictive Features to the Web3 Infrastructure
 
 ![Main Architecture](./../static/img/main_arch.png)
+
+Explain each module in the main architecture:
+- On-chain Data
+  - Ingestion
+  - Transformation (DBTE)
+- Query Layer
+  - Mini Dataset (Training)
+  - Inference Data
+- Models
+  - Training
+  - Inference Engine (Real time)
+- Integration
+  - Contract Layer
+  - Wormhole Integration
+  - Seshat SDK
+
+## Seshat CLI
+
+### Mini Dataset Layer
+
+
+### Model Build Layer
+
+
+### Model Inference Layer
 
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
