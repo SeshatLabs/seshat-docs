@@ -38,7 +38,7 @@ export default function Home() {
       </div> */}
 
       <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '40px', paddingBottom: '40px' }}>
-          <img src="./img/main_arch.png" alt="Seshat Base Layer" width="1100" height="473"></img>
+          <img src="./img/main_arch.png" alt="Seshat Base Layer" className="responsive-image"></img>
       </div>
       <main>
         <HomepageFeatures />

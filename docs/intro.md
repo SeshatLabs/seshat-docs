@@ -11,99 +11,181 @@ sidebar_position: 1
 
 Explain each module in the main architecture:
 - On-chain Data
-  - Ingestion
-  - Transformation (DBTE)
+  - Ingestion: The layer handling ingesting on-chain data into the Seshat data wearhouse.
+  - Transformation (DBTE): The layer responsible for creating reusable tables on top of raw_data ingested by ingestors.
 - Query Layer
-  - Mini Dataset (Training)
-  - Inference Data
+  - Mini Dataset (Training): The module responsible for creating query runIds constructing datasets which can be fetched upon run status finishes.
+  - Inference Data: Similar to dataset layer but providing low latency data into the activated models.
 - Models
-  - Training
-  - Inference Engine (Real time)
-- Integration
-  - Contract Layer
-  - Wormhole Integration
-  - Seshat SDK
+  - Training: Same as dataset layer, providing large amount of data for training (higher latency since it will be created just once reusable by others).
+  - Inference Engine (Real time): The engine responsible for running models on inference mode if the model is activated upon receiving new requests.
+- Integration.
+  - Contract Layer: The layer getting requests on-chain and provding results to Wormhole gaurdians to be propagated on destination chain (i.e., the chain request initiated).
+  - Wormhole Integration: The connection between Seshat gateways and wormhole gateways.
+  - Seshat SDK: The Node.JS SDK providing main functionalities (Data, Model, Inference layers) by simple importable methods to be used directly from dApp front-ends.
 
-## Seshat CLI
+## Seshat CLI (dApp Front-end)
+
+First you need to install Seshat-SDK (Node.JS):
+
+`npm install seshat`
 
 ### Mini Dataset Layer
+
+To create your dataset, you need to create a run-id by providing your PSQL query, then fetching the result by calling the created run-id for your query. You can see an example to retrieve balances of a subset of users:
+
+```javascript
+const seshat = require('seshat');
+const QUERY = ''' SELECT * FROM ethereum_raw_decoded WHERE to_address_type = "contract" AND transaction_date >= current_date - interval "6 months"; ''';
+const API_KEY = "<your api key here>";
+
+const datasetId = await seshat.create_datasetRunId(QUERY, API_KEY)
+console.log(`Dataset run created with ID: ${datasetRunId}`);
+
+const pollingInterval = 1 * 1000;
+const start = Date.now();
+const timeout = 10 * 60 * 1000; // 10min timeout
+
+const getexecuteStatus = async () => {
+  const executeStatus = await seshat.get_datasetRunId_status(datasetRunId)
+
+  if (!["created", "queued", "running"].includes(executeStatus)) {
+    return executeStatus;
+  }
+  console.log(`Current status: ${executeStatus}. Waiting ${pollingInterval}s...`);
+  if (Date.now() < start + timeout) {
+    setTimeout(getexecuteStatus, pollingInterval);
+  }
+};
+executeStatus = getexecuteStatus();
+
+if (executeStatus == "success") {
+  const results = seshat.fetch_datasetRunId_results(datasetRunId)
+
+  console.log(
+    `Dataset returned ${results["data"].length} rows, with fields: ${results[
+      "meta"
+    ]["columns"]
+      .map((c) => c.get("name"))
+      .join(", ")}`
+  );
+} else if (runStatus == "failed") {
+
+  console.log(`Dataset failed with error: ${results["error]}`
+} else {
+  console.log(`Dataset run finished with status: ${runStatus}. No results.`);
+}
+```
+
+For instance in above Javascript code, we first create a runId for the dataset of transactions where the to_address type is contract (as oppose to users) within past six months. Subsequently, we check the status of running required queries to create such dataset and finally getting the result (i.e., dataset).
 
 
 ### Model Build Layer
 
+Considering the dataset creation from the previous step, the model creation and training phase will be handeled off-chain and the output of your trained model can be pushed to Seshat model hub as follows:
+
+```javascript
+  const seshat = require('seshat');
+  const API_KEY = "<your api key here>";
+  const MODEL_PATH = "<path to your saved PyTorch model>";
+  const MODEL_NAME = "<your model name>";
+  const MODEL_VERSION = "<model version>";
+
+  // Step 1: Tagging and pushing the model to Seshat model hub
+  const pushModelToHub = async () => {
+    try {
+      const modelId = await seshat.tag_and_push_model(MODEL_PATH, MODEL_NAME, MODEL_VERSION, API_KEY);
+      console.log(`Model pushed successfully. Model ID: ${modelId}`);
+      return modelId;
+    } catch (error) {
+      console.error(`Error pushing model to Seshat model hub: ${error}`);
+    }
+  };
+
+  // Step 2: Activating the model
+  const activateModel = async (modelId: string) => {
+    try {
+      const activationStatus = await seshat.activate_model(modelId, API_KEY);
+      if (activationStatus === 'activated') {
+        console.log(`Model activated successfully.`);
+      } else {
+        console.log(`Model activation status: ${activationStatus}`);
+      }
+    } catch (error) {
+      console.error(`Error activating model: ${error}`);
+    }
+  };
+
+  const main = async () => {
+    const modelId = await pushModelToHub();
+    if (modelId) {
+      await activateModel(modelId);
+    }
+  };
+
+  main();
+```
 
 ### Model Inference Layer
 
-<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/8tZ1wZ4y_SI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Considering the modelId after pushing and activating model on Seshat, you can easily provide the required inputs as payload and get the result executed by running the model on inference mode as follows:
 
+```javascript
+const axios = require('axios').default;
+const seshat = require('seshat');
+const API_KEY = "<your api key here>";
+const MODEL_ID = "<your model id>"; 
+const INPUT_DATA = { /* your input data */ };
 
-**Why do we need a recommendation engine for Web3?**
+const runInference = async () => {
+  try {
+    // Start the inference
+    const inferenceId = await seshat.run_model_inference(API_KEY, MODEL_ID, INPUT_DATA);
+    console.log(`Inference run started. ID: ${inferenceId}`);
 
-To bring more users to the Web3 ecosystem, we need to deliver the same experience they had in Web2. However, as a dApp developer, when we add the "connect wallet" functionality to our product, we only have access to the user's public key. With just a public key and on-chain transactions, there's no way to use traditional Web2 recommendation engines. To deliver a personalized experience similar to what FANG companies offer, we need a new personalization engine that fits our new journey. Enter Seshat!
+    // Poll for inference status
+    const checkInferenceStatus = async () => {
+      const status = await seshat.get_inference_status(API_KEY, inferenceId);
+      if (status === 'success') {
+        // Fetch and log results if inference is successful
+        const results = await seshat.fetch_inference_results(API_KEY, inferenceId);
+        console.log(`Inference returned results: ${JSON.stringify(results)}`);
+      } else if (status === 'failed') {
+        console.error(`Inference failed.`);
+      } else {
+        console.log(`Inference status: ${status}. Waiting before next check...`);
+        setTimeout(checkInferenceStatus, 1000); // Check again after a delay
+      }
+    };
 
-**How does Seshat work?**
+    await checkInferenceStatus();
+  } catch (error) {
+    console.error(`Error during model inference: ${error}`);
+  }
+};
 
-In the generative AI world we live in, it's inevitable to leverage AI technology to solve the Web3 recommendation engine problem. Seshat uses its own generative AI, trained self-supervised on over 20 million contracts and more than 1 billion transactions across various blockchains (Ethereum, Aptos, Cosmos, NEAR, Solana, Axelar, and many more). This allows Seshat to understand the story behind each user interaction across all chains, making it chain-agnostic. Our data adaptors connect to any chain-scans and process real-time user transactions (i.e., user-user or user-contract interactions). This approach not only benefits on-chain asset recommendations but also covers off-chain assets to expand Web3 penetration. With machine understanding of each transaction and the generalizability of new contracts, we can bring all the personalization knowledge we have from the Web2 era.
-
-**Why the name Seshat?**
-
-The name Seshat was chosen in honor of the ancient Egyptian goddess of wisdom, knowledge, and writing. Seshat was known for her ability to bring order and structure to the universe, much like our recommendation engine aims to bring personalized experiences to the blockchain, Web3, and dApps ecosystem. The connection between the name Seshat and our technology lies in the ability to bring order, understanding, and personalization to the vast and complex world of Web3. By leveraging the wisdom of Seshat, we aim to create a seamless, personalized experience for users across the Web3 landscape. -->
-
-<!-- Let's discover **Docusaurus in less than 5 minutes**.
-
-
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
+runInference();
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+## Seshat Contract
+Considering your source chain, you need to import Seshat contract into your contract. Other steps (creating dataset, training models, and pushing to Seshat model hub is the same as Seshat CLI above). For instance on EVM chains:
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+```c
+  // SPDX-License-Identifier: MIT
+  pragma solidity ^0.8.0;
 
-## Start your site
+  import "./Seshat.sol";
 
-Run the development server:
+  contract MyContract is Seshat {
+      // Event to emit the result
+      event ResultReceived(string result);
 
-```bash
-cd my-website
-npm run start
+      // Function to send model_id and data payload
+      function sendRequest(uint model_id, string memory data) public {
+
+          string memory result = processRequest(model_id, data);
+
+          emit ResultReceived(result);
+    }
+}
 ```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
-
-
-So what are the main sections for our product documentation? 
-The persona here is two main parties:
-- Marketer, advertisers, anyone who wanna run targeted on-chain campaing for their marketing purpuses
-- Publishers, dApp developers, blockchain deverlopers, defi protocols, any parties that deal with end user 
-
-So based on the personas, we can have the follosing sections:
-- Intro and concepts
-- Web3 advertisements
-- Web3 personalization
-Users don't need to choose a role (just add more complexity, simple is better), they just create an accountn with nextAuth, and receive an API-Key, there are two caps:
-- One for the number of calling recommender API 
-- Another for a cap limit for size of the items
-
-For ads API, the advertiser building campain is from web application, but dApp deverlopers as publishers can install the sdk, and get the ads for a specific user, and return the nessary feedback regarding the user interaction, maybe in future we need to use some 3rd party tracker to prevent fraud, or even design a cosmos-based blockchain that do the securing an on-chain ads protocol. -->
